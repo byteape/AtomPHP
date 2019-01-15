@@ -22,7 +22,7 @@
 ```
 ### 安装方法
 ```
-comoser install
+composer install
 ```
 ### 基本应用
 ```
