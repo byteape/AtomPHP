@@ -1,0 +1,6 @@
+/.idea
+/.env
+/runtime/cache
+/runtime/log
+/runtime/temp
+/vendor
