@@ -20,6 +20,6 @@ return [
     'LANGUAGE'        => 'zh-cn',
 
     //是否自动加载model文件
-    'AUTO_LOAD_MODEL' => false,
+    'AUTO_LOAD_MODEL' => true,
 
 ];
