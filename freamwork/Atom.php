@@ -2,7 +2,6 @@
 
 namespace freamwork;
 
-use Whoops\Run;
 use freamwork\Helper;
 use freamwork\Url;
 use freamwork\Config;
@@ -12,6 +11,7 @@ use freamwork\Model;
 use freamwork\Route;
 use freamwork\Request;
 use freamwork\Lanuage;
+use freamwork\ExceptionHandler;
 
 $urlSelf = $_SERVER['PHP_SELF'];
 $rootStr = str_replace('public/index.php', '', $urlSelf);
@@ -31,6 +31,7 @@ define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
 define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
 define('IS_DELETE', REQUEST_METHOD == 'DELETE' ? true : false);
 
+require_once __DIR__ . '/ExceptionHandler.class.php';
 require_once __DIR__ . '/Helper.class.php';
 require_once __DIR__ . '/Config.class.php';
 require_once __DIR__ . '/Url.class.php';
@@ -41,18 +42,6 @@ require_once __DIR__ . '/Route.class.php';
 require_once __DIR__ . '/Controller.class.php';
 require_once __DIR__ . '/Request.class.php';
 require_once __DIR__ . '/Lanuage.class.php';
-
-//调试信息
-$debug = Config::get('app', 'APP_DEBUG');
-
-if ($debug) {
-    $whoops = new Run;
-    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-    $whoops->register();
-} else {
-    ini_set("error_reporting", "E_ALL & ~E_NOTICE");
-}
-
 
 Route::run();
 
