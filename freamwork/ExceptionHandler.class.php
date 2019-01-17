@@ -35,7 +35,12 @@ class ExceptionHandler {
      */
     public static function appException($exception) {
         $string = $exception->getTraceAsString();
-        $info   = '<h2>:(' . $exception->getMessage() . '</h2>';
+        $info   = '<h2>:( <br/>'
+            . $exception->getMessage()
+            . '<br/>'
+            . $exception->getFile()
+            . '(' . $exception->getLine() . ')'
+            . '</h2>';
         $info   .= str_replace("\n", '<br/>', $string);
 
         // 发送404信息
@@ -103,7 +108,7 @@ class ExceptionHandler {
         ob_end_clean();
         $errorMessage = $info;
         //调试信息
-        $debug = config( 'APP_DEBUG');
+        $debug = config('APP_DEBUG');
         if ($debug) {
             include_once __DIR__ . '/../resources/template/error.html';
         } else {
