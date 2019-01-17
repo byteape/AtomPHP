@@ -20,14 +20,14 @@ class IndexController extends Controller {
 
     public function index() {
 
-        echo '<h1>:)ATOMPHP</h1><br/><a href="' . url('index/tpl', array('test' => 1)) . '">跳转模板</a>';
+        echo '<h1>:)ATOMPHP</h1><br/><a href="' . url('index/tpl', array('test' => 1)) . '">跳转模板</a><br/>';
 
         //获取参数
-        //var_dump(Request::all());
+        //var_dump(Request::get(''));
         //var_dump(Request::get('c'));
 
         //获取链接
-        //var_dump(url('index/test', array('test' => 1)));
+        var_dump(url('index/test', array('test' => 1)));
 
         //输出日志
         //Log::notice('这是一个日志信息');
@@ -69,6 +69,7 @@ class IndexController extends Controller {
 
         $title = 'AtomPHP';
 
+        $this->assign('testParam',Request::get('test'));
         $this->assign('navigation', $navigation);
         $this->assign('title', $title);
         $this->display('index');

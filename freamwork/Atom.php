@@ -12,9 +12,14 @@ use freamwork\Request;
 use freamwork\Lanuage;
 use freamwork\ExceptionHandler;
 
-$urlSelf = $_SERVER['PHP_SELF'];
-$rootStr = str_replace('public/index.php', '', $urlSelf);
-define('__ROOT__', $rootStr);
+// 当前文件名
+if (!defined('_PHP_FILE_')) {
+    define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], '/'));
+}
+if (!defined('__ROOT__')) {
+    $_root = rtrim(dirname(_PHP_FILE_), '/');
+    define('__ROOT__', (($_root == '/' || $_root == '\\') ? '' : $_root));
+}
 
 $dotenv = \Dotenv\Dotenv::create(__DIR__ . "/../");
 $dotenv->load();

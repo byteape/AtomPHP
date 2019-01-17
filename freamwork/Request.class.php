@@ -58,13 +58,6 @@ class Request {
                         $input = $_GET;
                 }
                 break;
-            case 'path'    :
-                $input = [];
-                if (!empty($_SERVER['PATH_INFO'])) {
-                    $depr  = config('URL_PATHINFO_DEPR');
-                    $input = explode($depr, trim($_SERVER['PATH_INFO'], $depr));
-                }
-                break;
             case 'request' :
                 $input =& $_REQUEST;
                 break;
@@ -149,21 +142,7 @@ class Request {
         } else { // 变量默认值
             $data = isset($default) ? $default : null;
         }
-        is_array($data) && array_walk_recursive($data, 'think_filter');
+        is_array($data) && array_walk_recursive($data, 'atom_filter');
         return $data;
-    }
-
-    /**
-     * 获取所有参数
-     * @return array
-     */
-    public static function all() {
-
-        $request = [];
-        foreach ($_REQUEST as $k => $v) {
-            $request[$k] = self::get($k);
-        }
-
-        return $request;
     }
 }
