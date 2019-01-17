@@ -45,6 +45,7 @@ class IndexController extends Controller {
         //定义与获取数据缓存
         //Cache::save('key','data',60);
         //var_dump(Cache::fetch('key'));
+        //var_dump(Cache::remember('key','data',60));
 
         //获取语言包文件
         //var_dump(language('Home'));

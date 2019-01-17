@@ -51,3 +51,11 @@ function language($key) {
 function config($key, $file = '') {
     return \freamwork\Config::get($key, $file);
 }
+
+/**
+ * 获取数据库连接对象
+ * @return \Medoo\Medoo
+ */
+function db() {
+    return \freamwork\Model::db();
+}

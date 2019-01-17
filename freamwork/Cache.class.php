@@ -85,4 +85,18 @@ class Cache {
         $cacheDriver = self::getDriver();
         return $cacheDriver->getStats();
     }
+
+    /**
+     * 获取与设置缓存
+     * @param $id
+     * @param $data
+     * @param $lifeTime
+     * @return false|mixed
+     */
+    public static function remember($id, $data, $lifeTime) {
+        if (!self::contains($id)) {
+            self::save($id, $data, $lifeTime);
+        }
+        return self::fetch($id);
+    }
 }
