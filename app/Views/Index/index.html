@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ title }}</title>
+    <title>{$title}</title>
 </head>
 <body>
 <ul id="navigation">
-    {% for item in navigation %}
-    <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
-    {% endfor %}
+    <li php-foreach="$navigation as $item"><a href="{$item.href}">{$item.caption}</a></li>
 </ul>
+{:testFunction()}
 </body>
 </html>

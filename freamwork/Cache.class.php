@@ -17,7 +17,7 @@ class Cache {
      * @return FilesystemCache|RedisCache
      */
     private static function getDriver() {
-        $cache_driver = config::get('app', 'cache_driver');
+        $cache_driver = config('CACHE_DRIVER');
         switch ($cache_driver) {
             case 'file':
                 $cacheDriver = new FilesystemCache(__DIR__ . '/../runtime/cache');

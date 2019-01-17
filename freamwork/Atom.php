@@ -3,7 +3,6 @@
 namespace freamwork;
 
 use freamwork\Helper;
-use freamwork\Url;
 use freamwork\Config;
 use freamwork\Log;
 use freamwork\Cache;
@@ -31,10 +30,10 @@ define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
 define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
 define('IS_DELETE', REQUEST_METHOD == 'DELETE' ? true : false);
 
+require_once __DIR__ . '/../resources/helper/function.php';
 require_once __DIR__ . '/ExceptionHandler.class.php';
 require_once __DIR__ . '/Helper.class.php';
 require_once __DIR__ . '/Config.class.php';
-require_once __DIR__ . '/Url.class.php';
 require_once __DIR__ . '/Log.class.php';
 require_once __DIR__ . '/Cache.class.php';
 require_once __DIR__ . '/Model.class.php';

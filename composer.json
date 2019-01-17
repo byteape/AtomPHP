@@ -1,9 +1,9 @@
 {
   "require": {
     "doctrine/cache": "1.8.*",
-    "twig/twig":"2.*",
     "vlucas/phpdotenv": "^3.1",
     "catfan/medoo": "^1.6",
-    "monolog/monolog": "^1.24"
+    "monolog/monolog": "^1.24",
+    "topthink/think-angular": "^2.0"
   }
 }

@@ -22,7 +22,7 @@ class Lanuage {
      */
     public static function get($key) {
         $directory    = __DIR__ . '/../resources/languages/';
-        $languageFile = $directory . Config::get('app', 'LANGUAGE') . '.php';
+        $languageFile = $directory . config('LANGUAGE') . '.php';
 
         if (self::$lData) {
             $data = self::$lData;

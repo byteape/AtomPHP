@@ -22,19 +22,46 @@ class Config {
 
     /**
      * 读取配置文件
-     * @param $file
      * @param $key
-     * @return mixed
+     * @param string $file
+     * @return mixed|string
      */
-    public static function get($file, $key) {
-        $nowFile = self::directory . $file;
+    public static function get($key, $file = '') {
         if (self::$configData) {
             $data = self::$configData;
         } else {
-            $data             = require_once $nowFile . '.php';
+            $data             = self::getConfigData($file);
             self::$configData = $data;
         }
 
         return isset($data[$key]) ? $data[$key] : '';
+    }
+
+    /**
+     * 获取所有配置参数
+     * @param string $file
+     * @return array|mixed
+     */
+    public static function getConfigData($file = '') {
+        $list       = scandir(self::directory);
+        $num        = count($list);
+        $configData = [];
+        for ($i = 2; $i < $num; $i++) {
+            if ($file) {
+                $data       = require_once self::directory . $file . '.php';
+                $configData = $data;
+            } else {
+                $data = require_once self::directory . $list[$i];
+                if (count($data)) {
+                    if ($i == 2) {
+                        $configData = $data;
+                    } else {
+                        $configData = array_merge($configData, $data);
+                    }
+                }
+            }
+
+        }
+        return $configData;
     }
 }

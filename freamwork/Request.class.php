@@ -28,7 +28,7 @@ class Request {
         static $_PUT = null;
         if (strpos($name, '/')) { // 指定修饰符
             list($name, $type) = explode('/', $name, 2);
-        } else if (\freamwork\Config::get('app', 'VAR_AUTO_STRING')) { // 默认强制转换为字符串
+        } else if (config('VAR_AUTO_STRING')) { // 默认强制转换为字符串
             $type = 's';
         }
         if (strpos($name, '.')) { // 指定参数来源
@@ -67,7 +67,7 @@ class Request {
             case 'path'    :
                 $input = [];
                 if (!empty($_SERVER['PATH_INFO'])) {
-                    $depr  = C('URL_PATHINFO_DEPR');
+                    $depr  = config('URL_PATHINFO_DEPR');
                     $input = explode($depr, trim($_SERVER['PATH_INFO'], $depr));
                 }
                 break;
@@ -94,7 +94,7 @@ class Request {
         }
         if ('' == $name) { // 获取全部变量
             $data    = $input;
-            $filters = isset($filter) ? $filter : C('DEFAULT_FILTER');
+            $filters = isset($filter) ? $filter : config('DEFAULT_FILTER');
             if ($filters) {
                 if (is_string($filters)) {
                     $filters = explode(',', $filters);
@@ -105,7 +105,7 @@ class Request {
             }
         } else if (isset($input[$name])) { // 取值操作
             $data    = $input[$name];
-            $filters = isset($filter) ? $filter : \freamwork\Config::get('app', 'DEFAULT_FILTER');
+            $filters = isset($filter) ? $filter : config('DEFAULT_FILTER');
             if ($filters) {
                 if (is_string($filters)) {
                     if (0 === strpos($filters, '/')) {

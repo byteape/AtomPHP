@@ -103,9 +103,9 @@ class ExceptionHandler {
         ob_end_clean();
         $errorMessage = $info;
         //调试信息
-        $debug = Config::get('app', 'APP_DEBUG');
+        $debug = config( 'APP_DEBUG');
         if ($debug) {
-            include_once __DIR__ . '/tpl/error.html';
+            include_once __DIR__ . '/../resources/template/error.html';
         } else {
             ini_set("error_reporting", "E_ALL & ~E_NOTICE");
         }

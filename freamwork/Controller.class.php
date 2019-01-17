@@ -2,10 +2,7 @@
 
 namespace freamwork;
 
-
-use Twig_Environment;
-use Twig_Extension_Debug;
-use Twig_Loader_Filesystem;
+use PHPAngular\Angular;
 use freamwork\Config;
 
 /**
@@ -13,40 +10,32 @@ use freamwork\Config;
  * Class Controller
  * @package freamwork
  */
-class Controller {
-
-    /**
-     * 模板引擎
-     * @var Twig_Environment
-     */
-    protected $tpl;
+class Controller extends Angular {
 
     /**
      * 实例模板引擎
      * Controller constructor.
      */
     public function __construct() {
-        $debug     = Config::get('app', 'APP_DEBUG');
+        $debug     = config('APP_DEBUG');
         $className = get_class($this);
-        $viewDir   = str_replace(['app\Controllers\\', ucfirst('Controller')], '', $className);
-        $loader    = new Twig_Loader_Filesystem(__DIR__ . '/../app/Views/' . $viewDir);
-        $twig      = new Twig_Environment($loader, [
-            'cache' => __DIR__ . '/../runtime/temp',
-            'debug' => $debug,
-        ]);
+        $viewDir   = str_replace(array('app\Controllers\\', ucfirst('Controller')), '', $className);
 
-        //dump调试信息
-        if ($debug) {
-            $twig->addExtension(new Twig_Extension_Debug());
-        }
+        ///模板参数
+        $config = [
+            'debug'            => $debug, // 是否开启调试, 开启调试会实时生成缓存
+            'tpl_path'         => __DIR__ . '/../app/Views/' . $viewDir . '/', // 模板根目录
+            'tpl_suffix'       => config('TPL_SUFFIX'), // 模板的后缀
+            'tpl_cache_path'   => __DIR__ . '/../runtime/temp/', // 模板缓存目录
+            'tpl_cache_suffix' => '.php', // 模板缓存后缀
+            'directive_prefix' => 'php-', // 指令前缀
+            'directive_max'    => 10000, // 指令的最大解析次数
+        ];
 
-        //设置模板date时区
-        $twig->getExtension('Twig_Extension_Core')->setTimezone(TIME_ZONE);
-
-        $this->tpl = $twig;
+        parent::__construct($config);
 
         //自动注册加载
-        if (Config::get('app', 'AUTO_LOAD_MODEL')) {
+        if (config('AUTO_LOAD_MODEL')) {
             require_once 'Loader.class.php';
             spl_autoload_register(__NAMESPACE__ . '\Loader::autoload');
         }
