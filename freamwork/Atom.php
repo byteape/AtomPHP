@@ -34,6 +34,7 @@ define('IS_GET', REQUEST_METHOD == 'GET' ? true : false);
 define('IS_POST', REQUEST_METHOD == 'POST' ? true : false);
 define('IS_PUT', REQUEST_METHOD == 'PUT' ? true : false);
 define('IS_DELETE', REQUEST_METHOD == 'DELETE' ? true : false);
+define('__PUBLIC__', __ROOT__ . '/public');
 
 require_once __DIR__ . '/../resources/helper/function.php';
 require_once __DIR__ . '/ExceptionHandler.class.php';

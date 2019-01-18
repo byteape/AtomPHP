@@ -38,6 +38,7 @@ class Route {
         //定义常量
         define('CONTROLLER_NAME', $controller);
         define('ACTION_NAME', $action);
+        define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[config('VAR_AJAX_SUBMIT')]) || !empty($_GET[config('VAR_AJAX_SUBMIT')])) ? true : false);
 
         require_once __DIR__ . '/../app/Controllers/' . $controller . 'Controller.php';
 

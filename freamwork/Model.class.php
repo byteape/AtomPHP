@@ -13,11 +13,13 @@ class Model {
 
     /**
      * 获取连接句柄
+     * @param string $configFile
      * @return Medoo
      */
-    public static function db() {
-        $dbconfig = require __DIR__ . "/../config/database.php";
-        $database = new Medoo($dbconfig);
+    public static function db($configFile = '') {
+        $configFile = $configFile ? $configFile : 'database';
+        $dbconfig   = require __DIR__ . "/../config/" . $configFile . '.php';
+        $database   = new Medoo($dbconfig);
         return $database;
     }
 

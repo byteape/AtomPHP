@@ -12,7 +12,7 @@ class Config {
     /**
      * 配置文件目录
      */
-    const directory = __DIR__ . '/../config/';
+    const directory = [__DIR__ . '/../config/', __DIR__ . '/../resources/config/'];
 
     /**
      * 只加载一次的配置数据
@@ -43,24 +43,28 @@ class Config {
      * @return array|mixed
      */
     public static function getConfigData($file = '') {
-        $list       = scandir(self::directory);
-        $num        = count($list);
+        $diretory   = self::directory;
         $configData = [];
-        for ($i = 2; $i < $num; $i++) {
-            if ($file) {
-                $data       = require_once self::directory . $file . '.php';
-                $configData = $data;
-            } else {
-                $data = require_once self::directory . $list[$i];
-                if (count($data)) {
-                    if ($i == 2) {
-                        $configData = $data;
-                    } else {
-                        $configData = array_merge($configData, $data);
+        foreach ($diretory as $k => $v) {
+            $list = scandir($v);
+            $num  = count($list);
+
+            for ($i = 2; $i < $num; $i++) {
+                if ($file) {
+                    $data       = require_once self::directory . $file . '.php';
+                    $configData = $data;
+                } else {
+                    $data = require_once $v . $list[$i];
+                    if (count($data)) {
+                        if ($i == 2) {
+                            $configData = $data;
+                        } else {
+                            $configData = array_merge($configData, $data);
+                        }
                     }
                 }
-            }
 
+            }
         }
         return $configData;
     }
