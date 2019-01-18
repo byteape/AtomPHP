@@ -42,6 +42,18 @@ class Controller {
     }
 
     /**
+     * 模板变量赋值
+     * @access protected
+     * @param mixed $name 要显示的模板变量
+     * @param mixed $value 变量的值
+     * @return Action
+     */
+    protected function assign($name, $value = '') {
+        $this->tpl->assign($name, $value);
+        return $this;
+    }
+
+    /**
      * 编译模板输出结果
      * @param string $tpl_file
      * @param array $tpl_var
