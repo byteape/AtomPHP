@@ -19,14 +19,11 @@ class Controller {
      * Controller constructor.
      */
     public function __construct() {
-        $debug     = config('APP_DEBUG');
-        $className = get_class($this);
-        $viewDir   = str_replace(array('app\Controllers\\', ucfirst('Controller')), '', $className);
-
+        $debug = config('APP_DEBUG');
         ///模板参数
         $config = [
             'debug'            => $debug, // 是否开启调试, 开启调试会实时生成缓存
-            'tpl_path'         => __DIR__ . '/../app/Views/' . $viewDir . '/', // 模板根目录
+            'tpl_path'         => __DIR__ . '/../app/Views/', // 模板根目录
             'tpl_suffix'       => config('TPL_SUFFIX'), // 模板的后缀
             'tpl_cache_path'   => __DIR__ . '/../runtime/temp/', // 模板缓存目录
             'tpl_cache_suffix' => '.php', // 模板缓存后缀
@@ -50,8 +47,10 @@ class Controller {
      * @param array $tpl_var
      */
     protected function display($tpl_file = '', $tpl_var = []) {
-        $tpl_file = $tpl_file ? $tpl_file : ACTION_NAME;
-        echo $this->tpl->display($tpl_file, $tpl_var);
+        $tpl_file  = $tpl_file ? $tpl_file : ACTION_NAME;
+        $className = get_class($this);
+        $viewDir   = str_replace(array('app\Controllers\\', ucfirst('Controller')), '', $className);
+        echo $this->tpl->display($viewDir . '/' . $tpl_file, $tpl_var);
     }
 
     /**
