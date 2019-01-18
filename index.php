@@ -13,7 +13,7 @@
 if (version_compare(PHP_VERSION, '5.6.0', '<')) die('require PHP > 5.6.0 !');
 
 //自动加载
-require __DIR__ . "/../vendor/autoload.php";
+require __DIR__ . "/vendor/autoload.php";
 
 //框架文件
-require __DIR__ . "/../freamwork/Atom.php";
+require __DIR__ . "/freamwork/Atom.php";
