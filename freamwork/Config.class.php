@@ -33,7 +33,6 @@ class Config {
             $data             = self::getConfigData($file);
             self::$configData = $data;
         }
-
         return isset($data[$key]) ? $data[$key] : '';
     }
 
@@ -51,21 +50,25 @@ class Config {
 
             for ($i = 2; $i < $num; $i++) {
                 if ($file) {
-                    $data       = require_once self::directory . $file . '.php';
+                    //如果指定了文件只读取公用配置目录下的文件
+                    $data       = require $diretory[0] . $file . '.php';
                     $configData = $data;
                 } else {
-                    $data = require_once $v . $list[$i];
+                    $data = require $v . $list[$i];
                     if (count($data)) {
-                        if ($i == 2) {
-                            $configData = $data;
-                        } else {
-                            $configData = array_merge($configData, $data);
-                        }
+                        array_push($configData, $data);
                     }
                 }
 
             }
         }
-        return $configData;
+
+        $allConfig = [];
+        foreach ($configData as $k => $v) {
+            foreach ($v as $m => $n) {
+                $allConfig[$m] = $n;
+            }
+        }
+        return $allConfig;
     }
 }
