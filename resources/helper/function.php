@@ -14,7 +14,7 @@
 function url($actStr, $params = array()) {
     $actArr = explode('/', $actStr);
     $count  = count($actArr);
-    if ($count == 2) {
+    if ($count == 2 && $actArr[0] != '') {
         $controller = lcfirst($actArr[0]);
         $action     = $actArr[1];
 
