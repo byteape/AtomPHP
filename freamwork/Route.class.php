@@ -42,6 +42,9 @@ class Route {
 
         require_once __DIR__ . '/../app/Controllers/' . $controller . 'Controller.php';
 
+        //启动session
+        if (config('SESSION_AUTO_START')) session_start();
+
         //实例控制器
         $controller = "\app\Controllers\\" . $controller . "Controller";
         $object     = new $controller();
