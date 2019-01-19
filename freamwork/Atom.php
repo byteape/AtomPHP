@@ -11,6 +11,8 @@ use freamwork\Route;
 use freamwork\Request;
 use freamwork\Lanuage;
 use freamwork\ExceptionHandler;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 // 当前文件名
 if (!defined('_PHP_FILE_')) {
@@ -51,6 +53,17 @@ require_once __DIR__ . '/Lanuage.class.php';
 //自动注册加载
 if (config('AUTO_LOAD_MODEL')) {
     spl_autoload_register(__NAMESPACE__ . '\Loader::autoload');
+}
+
+//调试判断
+if (config('APP_DEBUG')) {
+    $whoops  = new  Run;
+    $handler = new PrettyPageHandler;
+    $handler->setPageTitle("出现错误了");
+    $whoops->pushHandler($handler);
+    $whoops->register();
+} else {
+    ini_set("error_reporting", "E_ALL & ~E_NOTICE");
 }
 
 Route::run();

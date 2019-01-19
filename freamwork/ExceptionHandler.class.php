@@ -34,21 +34,10 @@ class ExceptionHandler {
      * @throws \Exception
      */
     public static function appException($exception) {
-        $string = $exception->getTraceAsString();
-        $info   = '<h2>:( <br/>'
-            . $exception->getMessage()
-            . '<br/>'
-            . $exception->getFile()
-            . '(' . $exception->getLine() . ')'
-            . '</h2>';
-        $info   .= str_replace("\n", '<br/>', $string);
-
         // 发送404信息
         header('HTTP/1.1 404 Not Found');
         header('Status:404 Not Found');
         self::log($exception);
-
-        self::dump($info);
     }
 
     /**
@@ -69,12 +58,10 @@ class ExceptionHandler {
                 ob_end_clean();
                 $errorStr = "$errstr " . $errfile . " 第 $errline 行.";
                 Log::error("[$errno] " . $errorStr);
-                self::dump($errorStr);
                 break;
             default:
                 $errorStr = "[$errno] $errstr " . $errfile . " 第 $errline 行.";
                 Log::error("[$errno] " . $errorStr);
-                self::dump($errorStr);
                 break;
         }
     }
@@ -94,25 +81,8 @@ class ExceptionHandler {
                     ob_end_clean();
                     $errorStr = $e['message'] . ' ' . $e['file]'] . " 第 " . $e['line'] . " 行.";
                     Log::error($errorStr);
-                    self::dump($errorStr);
                     break;
             }
-        }
-    }
-
-    /**
-     * 打印内容
-     * @param $info
-     */
-    public static function dump($info) {
-        ob_end_clean();
-        $errorMessage = $info;
-        //调试信息
-        $debug = config('APP_DEBUG');
-        if ($debug) {
-            include_once __DIR__ . '/../resources/template/error.html';
-        } else {
-            ini_set("error_reporting", "E_ALL & ~E_NOTICE");
         }
     }
 
