@@ -11,7 +11,7 @@ use Medoo\Medoo;
  */
 class Model {
 
-    static $db = [];
+    static $_db = [];
 
     /**
      * 获取连接句柄
@@ -21,11 +21,11 @@ class Model {
     public static function db($configFile = '') {
         $configFile = $configFile ? $configFile : 'database';
         $dbconfig   = require __DIR__ . "/../config/" . $configFile . '.php';
-        if (self::$db) {
-            return self::$db;
+        if (self::$_db[$configFile]) {
+            return self::$_db[$configFile];
         } else {
-            $database = new Medoo($dbconfig);
-            self::$db = $database;
+            $database               = new Medoo($dbconfig);
+            self::$_db[$configFile] = $database;
             return $database;
         }
     }
