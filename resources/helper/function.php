@@ -34,7 +34,7 @@ function url($actStr, $params = array()) {
                 $paramsArr[] = $k . '=' . $v;
             }
             if ($urlModel == 0) {
-                $url .= implode('&', $paramsArr);
+                $url .= '&' . implode('&', $paramsArr);
             } else if ($urlModel == 1 || $urlModel == 2) {
                 if (count($paramsArr) > 1) {
                     $url .= '?' . implode('&', $paramsArr);
@@ -45,7 +45,7 @@ function url($actStr, $params = array()) {
         }
         return $url;
     } else {
-        return __ROOT__;
+        return __ROOT__ . '/';
     }
 }
 
