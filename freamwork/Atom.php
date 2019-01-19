@@ -48,6 +48,11 @@ require_once __DIR__ . '/Controller.class.php';
 require_once __DIR__ . '/Request.class.php';
 require_once __DIR__ . '/Lanuage.class.php';
 
+//自动注册加载
+if (config('AUTO_LOAD_MODEL')) {
+    spl_autoload_register(__NAMESPACE__ . '\Loader::autoload');
+}
+
 Route::run();
 
 

@@ -33,12 +33,6 @@ class Controller {
 
         $view      = new Angular($config);
         $this->tpl = $view;
-
-        //自动注册加载
-        if (config('AUTO_LOAD_MODEL')) {
-            require_once 'Loader.class.php';
-            spl_autoload_register(__NAMESPACE__ . '\Loader::autoload');
-        }
     }
 
     /**
