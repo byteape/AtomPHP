@@ -55,6 +55,9 @@ if (config('AUTO_LOAD_MODEL')) {
     spl_autoload_register(__NAMESPACE__ . '\Loader::autoload');
 }
 
+//启动session
+if (config('SESSION_AUTO_START')) session_start();
+
 //调试判断
 if (config('APP_DEBUG')) {
     $whoops  = new  Run;
