@@ -12,7 +12,7 @@ class Config {
     /**
      * 配置文件目录
      */
-    const directory = [__DIR__ . '/../config/', __DIR__ . '/../resources/config/'];
+    const directory = [__DIR__ . '/../resources/config/', __DIR__ . '/../config/'];
 
     /**
      * 只加载一次的配置数据
