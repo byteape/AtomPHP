@@ -38,6 +38,7 @@ class ExceptionHandler {
         header('HTTP/1.1 404 Not Found');
         header('Status:404 Not Found');
         self::log($exception);
+        self::dump();
     }
 
     /**
@@ -58,10 +59,12 @@ class ExceptionHandler {
                 ob_end_clean();
                 $errorStr = "$errstr " . $errfile . " 第 $errline 行.";
                 Log::error("[$errno] " . $errorStr);
+                self::dump();
                 break;
             default:
                 $errorStr = "[$errno] $errstr " . $errfile . " 第 $errline 行.";
                 Log::error("[$errno] " . $errorStr);
+                self::dump();
                 break;
         }
     }
@@ -78,12 +81,18 @@ class ExceptionHandler {
                 case E_CORE_ERROR:
                 case E_COMPILE_ERROR:
                 case E_USER_ERROR:
-                    ob_end_clean();
-                    $errorStr = $e['message'] . ' ' . $e['file]'] . " 第 " . $e['line'] . " 行.";
-                    Log::error($errorStr);
+                    self::log($e);
+                    self::dump();
                     break;
             }
         }
+    }
+
+    /**
+     * 关闭调试模式下打印错误
+     */
+    public static function dump() {
+        echo ":(-出现了错误";
     }
 
     /**
@@ -92,10 +101,11 @@ class ExceptionHandler {
      * @throws \Exception
      */
     public static function log($exception) {
-        $logInfo = 'Message:' . $exception->getMessage() . " Info:" . $exception->getTraceAsString();
-        Log::error($logInfo);
+        Log::error($exception->getMessage()
+            . ' File:' . $exception->getFile()
+            . '(' . $exception->getLine() . ')'
+            . "\n"
+            . $exception->getTraceAsString());
     }
 
 }
-
-ExceptionHandler::run();

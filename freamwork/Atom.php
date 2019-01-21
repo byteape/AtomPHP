@@ -11,6 +11,8 @@ use freamwork\Route;
 use freamwork\Request;
 use freamwork\Lanuage;
 use freamwork\ExceptionHandler;
+use Whoops\Handler\CallbackHandler;
+use Whoops\Handler\Handler;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -48,6 +50,7 @@ require_once __DIR__ . '/Model.class.php';
 require_once __DIR__ . '/Route.class.php';
 require_once __DIR__ . '/Controller.class.php';
 require_once __DIR__ . '/Request.class.php';
+require_once __DIR__ . '/Loader.class.php';
 require_once __DIR__ . '/Lanuage.class.php';
 
 //自动注册加载
@@ -58,15 +61,28 @@ if (config('AUTO_LOAD_MODEL')) {
 //启动session
 if (config('SESSION_AUTO_START')) session_start();
 
+// 报告 E_NOTICE 之外的所有错误
+error_reporting(E_ALL ^ E_NOTICE);
+
 //调试判断
 if (config('APP_DEBUG')) {
     $whoops  = new  Run;
     $handler = new PrettyPageHandler;
     $handler->setPageTitle("出现错误了");
     $whoops->pushHandler($handler);
+    $whoops->pushHandler(new CallbackHandler(function ($e, $inspector, $run) {
+        Log::error($e->getMessage()
+            . ' File:' . $e->getFile()
+            . '(' . $e->getLine() . ')'
+            . "\n"
+            . $e->getTraceAsString());
+        return Handler::DONE;
+    }));
+    // $whoops->popHandler();
     $whoops->register();
+
 } else {
-    ini_set("error_reporting", "E_ALL & ~E_NOTICE");
+    ExceptionHandler::run();
 }
 
 Route::run();

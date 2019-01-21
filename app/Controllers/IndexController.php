@@ -20,7 +20,7 @@ class IndexController extends Controller {
 
     public function index() {
 
-        echo '<h1>:)ATOMPHP</h1><br/><a href="' . url('index/tpl', array('test' => 1)) . '">跳转模板</a><br/>';
+        echo '<h1>:)-ATOMPHP</h1><br/><a href="' . url('index/tpl', array('test' => 1)) . '">跳转模板</a><br/>';
 
         //获取参数
         //var_dump(Request::get(''));
