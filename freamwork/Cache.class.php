@@ -2,8 +2,12 @@
 
 namespace freamwork;
 
-use Doctrine\Common\Cache\FilesystemCache;
-use Doctrine\Common\Cache\RedisCache;
+
+use Cache\Adapter\Filesystem\FilesystemCachePool;
+use Cache\Adapter\Redis\RedisCachePool;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Redis;
 
 /**
  * 缓存处理
@@ -14,22 +18,22 @@ class Cache {
 
     /**
      * 获取缓存引擎
-     * @return FilesystemCache|RedisCache
+     * @return FilesystemCachePool|RedisCachePool
      */
     private static function getDriver() {
         $cache_driver = config('CACHE_DRIVER');
         switch ($cache_driver) {
             case 'file':
-                $cacheDriver = new FilesystemCache(__DIR__ . '/../runtime/cache');
-
+                $filesystemAdapter = new Local(__DIR__ . '/../runtime/');
+                $filesystem        = new Filesystem($filesystemAdapter);
+                $cacheDriver       = new FilesystemCachePool($filesystem);
                 break;
             case 'redis':
-                $redis = new Redis();
 
-                $redis->pconnect(getenv('REDIS_URI'), getenv('REDIS_PORT'), getenv('REDIS_DB'));
-
-                $cacheDriver = new RedisCache($redis);
-
+                $client = new Redis();
+                $client->connect(getenv('REDIS_URI'), getenv('REDIS_PORT'));
+                $client->select(getenv('REDIS_DB'));
+                $cacheDriver = new RedisCachePool($client);
                 break;
         }
         return $cacheDriver;
@@ -38,39 +42,43 @@ class Cache {
     /**
      * 获取缓存数据
      * @param $id
-     * @return false|mixed
+     * @return mixed|null|void
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public static function fetch($id) {
+    public static function get($id) {
         $cacheDriver = self::getDriver();
-        return $cacheDriver->fetch($id);
+        return $cacheDriver->get($id);
     }
 
     /**
      * 是否存在缓存数据
      * @param $id
      * @return bool
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public static function contains($id) {
+    public static function has($id) {
         $cacheDriver = self::getDriver();
-        return $cacheDriver->contains($id);
+        return $cacheDriver->has($id);
     }
 
     /**
      * 存储缓存
      * @param $id
      * @param $data
-     * @param int $lifeTime 单位秒
+     * @param int $lifeTime
      * @return bool
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public static function save($id, $data, $lifeTime = 0) {
+    public static function set($id, $data, $lifeTime = 0) {
         $cacheDriver = self::getDriver();
-        return $cacheDriver->save($id, $data, $lifeTime);
+        return $cacheDriver->set($id, $data, $lifeTime);
     }
 
     /**
      * 删除缓存
      * @param $id
      * @return bool
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public static function delete($id) {
         $cacheDriver = self::getDriver();
@@ -78,25 +86,17 @@ class Cache {
     }
 
     /**
-     * 获取缓存的状态
-     * @return array|null
-     */
-    public static function getStats() {
-        $cacheDriver = self::getDriver();
-        return $cacheDriver->getStats();
-    }
-
-    /**
      * 获取与设置缓存
      * @param $id
      * @param $data
      * @param $lifeTime
-     * @return false|mixed
+     * @return mixed|null|void
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public static function remember($id, $data, $lifeTime) {
-        if (!self::contains($id)) {
-            self::save($id, $data, $lifeTime);
+        if (!self::has($id)) {
+            self::set($id, $data, $lifeTime);
         }
-        return self::fetch($id);
+        return self::get($id);
     }
 }
