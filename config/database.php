@@ -22,8 +22,8 @@ return [
     // [optional] 默认情况下禁用日志记录以获得更好的性能
     'logging'       => true,
 
-    // [optional] MySQL socket (shouldn't be used with server and port)
-    'socket'        => '/tmp/mysql.sock',
+    // [optional] unix系统上，mysql的登陆方式有两种，分别是socket和tcp/ip方式登陆。tcp/ip方式时不要使用
+    //'socket'        => '/tmp/mysql.sock',
 
     // [optional] 连接的驱动程序选项，详情了解 http://www.php.net/manual/en/pdo.setattribute.php
     'option'        => [
