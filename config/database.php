@@ -23,15 +23,16 @@ return [
     'logging'       => true,
 
     // [optional] MySQL socket (shouldn't be used with server and port)
-    'socket'        => '/runtime/mysql.sock',
+    'socket'        => '/tmp/mysql.sock',
 
-    // [optional] 连接的驱动程序选项, 详情了解 http://www.php.net/manual/en/pdo.setattribute.php
+    // [optional] 连接的驱动程序选项，详情了解 http://www.php.net/manual/en/pdo.setattribute.php
     'option'        => [
         PDO::ATTR_CASE => PDO::CASE_NATURAL
     ],
 
     // [optional] Medoo将在连接到数据库进行初始化后执行这些命令
     'command'       => [
+        //启用ANSI_QUOTES后，不能用双引号来引用字符串，因为它被解释为识别符
         'SET SQL_MODE=ANSI_QUOTES'
     ],
 
