@@ -41,11 +41,7 @@ class Route {
         define('IS_AJAX', ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || !empty($_POST[config('VAR_AJAX_SUBMIT')]) || !empty($_GET[config('VAR_AJAX_SUBMIT')])) ? true : false);
 
         $controllerFile = __DIR__ . '/../app/Controllers/' . $controller . 'Controller.php';
-        if (file_exists($controllerFile)) {
-            require_once $controllerFile;
-        } else {
-            ExceptionHandler::dump('控制器不存在');
-        }
+        require_once $controllerFile;
 
         //启动session
         if (config('SESSION_AUTO_START')) session_start();
@@ -55,10 +51,6 @@ class Route {
         $object     = new $controller();
 
         //调用方法
-        if (method_exists($object, $action)) {
-            $object->$action();
-        } else {
-            ExceptionHandler::dump('操作方法不存在');
-        }
+        $object->$action();
     }
 }
