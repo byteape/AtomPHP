@@ -14,9 +14,9 @@
 function url($actStr, $params = array()) {
     $actArr = explode('/', $actStr);
     $count  = count($actArr);
-    if ($count == 2 && $actArr[0] != '') {
-        $controller = lcfirst($actArr[0]);
-        $action     = $actArr[1];
+    if (($count == 2 && $actArr[0] != '') || $actStr == '') {
+        $controller = $actStr ? lcfirst($actArr[0]) : CONTROLLER_NAME;
+        $action     = $actStr ? $actArr[1] : ACTION_NAME;
 
         $urlModel = config('URL_MODEL');
         if ($urlModel == 0) {
