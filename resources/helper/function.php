@@ -70,11 +70,12 @@ function config($key, $file = '') {
 
 /**
  * 获取数据库连接对象
- * @param string $configFile
- * @return \Medoo\Medoo
+ * @param string $configFile config文件名称
+ * @param array $dbConfig 自定义连接数组
+ * @return \Medoo\Medoo|mixed
  */
-function db($configFile = '') {
-    return \freamwork\Model::db($configFile);
+function db($configFile = '', $dbConfig = []) {
+    return \freamwork\Model::db($configFile, $dbConfig);
 }
 
 /**

@@ -16,15 +16,18 @@ class Model {
     /**
      * 获取连接句柄
      * @param string $configFile
-     * @return Medoo
+     * @param array $dbConfig
+     * @return Medoo|mixed
      */
-    public static function db($configFile = '') {
+    public static function db($configFile = '', $dbConfig = []) {
         $configFile = $configFile ? $configFile : 'database';
-        $dbconfig   = require __DIR__ . "/../config/" . $configFile . '.php';
         if (self::$_db[$configFile]) {
             return self::$_db[$configFile];
         } else {
-            $database               = new Medoo($dbconfig);
+            if (!$dbConfig) {
+                $dbConfig = require __DIR__ . "/../config/" . $configFile . '.php';
+            }
+            $database               = new Medoo($dbConfig);
             self::$_db[$configFile] = $database;
             return $database;
         }
